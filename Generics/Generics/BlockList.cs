@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Generics
 {
-    internal class BlockList<T> where T : class
+    internal class BlockList<T> : IDataFlow<T> where T : class
     {
         LinkedList<IBlock<T>> list;
         public BlockList()
@@ -19,12 +19,15 @@ namespace Generics
         }
         public T RunFlow(T input)
         {
+            
             LinkedListNode<IBlock<T>> node = list.First;
+            
             while (node != null)
             {
                 input = node.Value.Process(input);
                 node = node.Next;
             }
+
             return input;
         }
     }
